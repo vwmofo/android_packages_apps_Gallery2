@@ -442,41 +442,45 @@ public class VideoModule implements CameraModule,
         }
     }
 
-    // SingleTapListener
-    // Preview area is touched. Take a picture.
+    // Disable SingleTapListener quick and dirty :-)
     @Override
     public void onSingleTapUp(View view, int x, int y) {
-        if (mMediaRecorderRecording && effectsActive()) {
-            new RotateTextToast(mActivity, R.string.disable_video_snapshot_hint,
-                    mOrientation).show();
-            return;
-        }
-
-        MediaSaveService s = mActivity.getMediaSaveService();
-        if (mPaused || mSnapshotInProgress || effectsActive() || s == null || s.isQueueFull()) {
-            return;
-        }
-
-        if (!mMediaRecorderRecording) {
-            // check for dismissing popup
-            mUI.dismissPopup(true);
-            return;
-        }
-
-        // Set rotation and gps data.
-        int rotation = Util.getJpegRotation(mCameraId, mOrientation);
-        mParameters.setRotation(rotation);
-        Location loc = mLocationManager.getCurrentLocation();
-        Util.setGpsParameters(mParameters, loc);
-        mActivity.mCameraDevice.setParameters(mParameters);
-
-        Log.v(TAG, "Video snapshot start");
-        mActivity.mCameraDevice.takePicture(null, null, null, new JpegPictureCallback(loc));
-        showVideoSnapshotUI(true);
-        mSnapshotInProgress = true;
-        UsageStatistics.onEvent(UsageStatistics.COMPONENT_CAMERA,
-                UsageStatistics.ACTION_CAPTURE_DONE, "VideoSnapshot");
+	    // do nothing
     }
+    // SingleTapListener
+    // Preview area is touched. Take a picture.
+//    public void onSingleTapUp(View view, int x, int y) {
+//        if (mMediaRecorderRecording && effectsActive()) {
+//            new RotateTextToast(mActivity, R.string.disable_video_snapshot_hint,
+//                    mOrientation).show();
+//            return;
+//        }
+//
+//        MediaSaveService s = mActivity.getMediaSaveService();
+//        if (mPaused || mSnapshotInProgress || effectsActive() || s == null || s.isQueueFull()) {
+//            return;
+//        }
+//
+//        if (!mMediaRecorderRecording) {
+//            // check for dismissing popup
+//            mUI.dismissPopup(true);
+//            return;
+//        }
+//
+//        // Set rotation and gps data.
+//        int rotation = Util.getJpegRotation(mCameraId, mOrientation);
+//        mParameters.setRotation(rotation);
+//        Location loc = mLocationManager.getCurrentLocation();
+//        Util.setGpsParameters(mParameters, loc);
+//        mActivity.mCameraDevice.setParameters(mParameters);
+//
+//        Log.v(TAG, "Video snapshot start");
+//        mActivity.mCameraDevice.takePicture(null, null, null, new JpegPictureCallback(loc));
+//        showVideoSnapshotUI(true);
+//        mSnapshotInProgress = true;
+//        UsageStatistics.onEvent(UsageStatistics.COMPONENT_CAMERA,
+//                UsageStatistics.ACTION_CAPTURE_DONE, "VideoSnapshot");
+//    }
 
     @Override
     public void onStop() {}
